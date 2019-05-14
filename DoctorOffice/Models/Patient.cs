@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using System;
 
-namespace University.Models
+namespace DoctorOffice.Models
 {
   public class Patient
   {
@@ -40,7 +40,7 @@ namespace University.Models
       _name = name;
     }
 
-    public void SetDate(DateTime time)
+    public void SetDate(DateTime birthDate)
     {
       _birthDate = birthDate;
     }
