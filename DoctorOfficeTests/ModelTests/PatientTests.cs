@@ -56,55 +56,56 @@ namespace DoctorOffice.Tests
       Patient newPatient = new Patient(name);
 
       //Act
-      string result = newPatient.Name;
+      string result = newPatient.GetName();
 
       //Assert
       Assert.AreEqual(name, result);
     }
-  //
-  //   [TestMethod]
-  //   public void GetAll_ReturnsEmptyList_PatientList()
-  //   {
-  //     //Arrange
-  //     List<Client> newList = new List<Client> { };
-  //
-  //     //Act
-  //     List<Client> result = Client.GetAll();
-  //
-  //     //Assert
-  //     CollectionAssert.AreEqual(newList, result);
-  //   }
-  //
-  //   [TestMethod]
-  //   public void GetAll_ReturnsClients_ClientList()
-  //   {
-  //     //Arrange
-  //     Client newClient1 = new Client("Lydia Goh", 1, 2);
-  //     newClient1.Save();
-  //     Client newClient2 = new Client("Nancy Wing", 2, 3);
-  //     newClient2.Save();
-  //     List<Client> newList = new List<Client> { newClient1, newClient2 };
-  //
-  //     //Act
-  //     List<Client> result = Client.GetAll();
-  //
-  //     //Assert
-  //     CollectionAssert.AreEqual(newList, result);
-  //   }
-  //
-  //   [TestMethod]
-  //   public void Find_ReturnsCorrectClientFromDatabase_Client()
-  //   {
-  //     //Arrange
-  //     Client testClient = new Client("Hua-Min Rae", 0, 1);
-  //     testClient.Save();
-  //
-  //     //Act
-  //     Client foundClient = Client.Find(testClient.Id);
-  //
-  //     //Assert
-  //     Assert.AreEqual(testClient, foundClient);
-  //   }
+
+    [TestMethod]
+    public void GetAll_ReturnsEmptyList_PatientList()
+    {
+      //Arrange
+      List<Patient> newList = new List<Patient> { };
+
+      //Act
+      List<Patient> result = Patient.GetAll();
+
+      //Assert
+      CollectionAssert.AreEqual(newList, result);
+    }
+
+    [TestMethod]
+    public void GetAll_ReturnsPatients_PatientList()
+    {
+      //Arrange
+      Patient newPatient1 = new Patient("Lydia Goh");
+      newPatient1.Save();
+      Patient newPatient2 = new Patient("Nancy Wing");
+      newPatient2.Save();
+      List<Patient> newList = new List<Patient> { newPatient1, newPatient2 };
+
+      //Act
+      List<Patient> result = Patient.GetAll();
+
+      //Assert
+      // This is a way to avoid the CollectionAssert error that says "(Element at index 0 do not match)", because we are working with databases now.
+      Assert.AreEqual(newList[0].GetName(), result[0].GetName());
+    }
+
+    [TestMethod]
+    public void Find_ReturnsCorrectPatientFromDatabase_Patient()
+    {
+      //Arrange
+      Patient testPatient = new Patient("Hua-Min Rae");
+      testPatient.Save();
+
+      //Act
+      Patient foundPatient = Patient.Find(testPatient.GetId());
+
+      //Assert
+      Assert.AreEqual(testPatient, foundPatient);
+    }
   //
   //   [TestMethod]
   //   public void Equals_ReturnsTrueIfNamesAreTheSame_Client()

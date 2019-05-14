@@ -52,25 +52,28 @@ namespace DoctorOffice.Models
 
     public static Patient Find(int check)
     {
-      Patient ret = new Patient();
+      Patient patient = new Patient();
       MySqlConnection conn = DB.Connection();
       conn.Open();
       MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
       cmd.CommandText = @"SELECT * FROM patient where id = "+check+";";
       MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
-      rdr.Read();
-      if(rdr.IsDBNull(0) == false)
+      //nested if in a while loop to eliminate an error that was saying "Read must be done first"
+      while(rdr.Read())
       {
-        ret.SetId(rdr.GetInt32(0));
-        ret.SetName(rdr.GetString(1));
-        ret.SetDate(rdr.GetDateTime(2));
+        if(rdr.IsDBNull(0) == false)
+        {
+          patient.SetId(rdr.GetInt32(0));
+          patient.SetName(rdr.GetString(1));
+          patient.SetDate(rdr.GetDateTime(2));
+        }
       }
       conn.Close();
       if (conn != null)
       {
         conn.Dispose();
       }
-      return ret;
+      return patient;
     }
 
     public static List<Patient> GetAll()
